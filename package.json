@@ -4,6 +4,7 @@
   "version": "1.0.0",
   "author": "Ian Woolf",
   "dependencies": {
+    "@browniebroke/gatsby-image-gallery": "^3.2.1",
     "bulma": "^0.8.0",
     "gatsby": "^2.13.31",
     "gatsby-background-image": "^1.1.1",
