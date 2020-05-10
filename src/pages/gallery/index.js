@@ -46,7 +46,7 @@ export const query = graphql`
           full: childImageSharp {
             fluid(
               maxWidth: 4608
-              quality: 100
+              quality: 75
               srcSetBreakpoints: [576, 768, 992, 1200]
             ) {
               ...GatsbyImageSharpFluid
