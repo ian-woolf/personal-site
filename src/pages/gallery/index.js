@@ -3,11 +3,9 @@ import React from 'react'
 
 import Layout from '../../components/Layout'
 import Gallery from '@browniebroke/gatsby-image-gallery'
-import '@browniebroke/gatsby-image-gallery/dist/style.css'
 
 const IndexPage = ({ data }) => {
-  const fullSize = data.images.edges.map((edge) => edge.node.full.fluid.src)
-  const thumbs = data.images.edges.map((edge) => edge.node.thumb.fluid)
+  const images = data.allFile.edges.map(({ node }) => node.childImageSharp)
   let title = "Gallery";
   return (
     <Layout>
@@ -20,7 +18,7 @@ const IndexPage = ({ data }) => {
               </h2>
               <p>I enjoy taking pictures when travelling or visiting new places. This is a selection of my favourites.</p>
               <br></br>
-              <Gallery images={fullSize} thumbs={thumbs} colWidth={100/1} mdColWidth={100/3}/>
+              <Gallery images={images} colWidth={100}/>
             </div>
           </div>
         </div>
@@ -31,26 +29,19 @@ const IndexPage = ({ data }) => {
 
 export const query = graphql`
   query ImagesForGallery {
-    images: allFile(
+    allFile(
       filter: {sourceInstanceName: {eq: "images"}, relativeDirectory: {eq: "gallery"}}
       sort: {fields: name, order: DESC }
     ) {
       edges {
         node {
-          id
-          thumb: childImageSharp {
-            fluid(maxWidth: 270, maxHeight: 270) {
-              ...GatsbyImageSharpFluid
-            }
-          }
-          full: childImageSharp {
-            fluid(
-              maxWidth: 4608
-              quality: 75
-              srcSetBreakpoints: [576, 768, 992, 1200]
-            ) {
-              ...GatsbyImageSharpFluid
-            }
+          childImageSharp {
+            thumb: gatsbyImageData(
+              width: 270
+              height: 270
+              placeholder: BLURRED
+            )
+            full: gatsbyImageData(layout: FULL_WIDTH)
           }
         }
       }
